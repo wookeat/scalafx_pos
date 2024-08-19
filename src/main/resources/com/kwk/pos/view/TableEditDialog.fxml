@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="335.0" prefWidth="454.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kwk.pos.view.TableEditDialogController">
+   <children>
+      <Button fx:id="removeItemButton" layoutX="184.0" layoutY="205.0" mnemonicParsing="false" onAction="#handleRemove" text="Remove Item" />
+      <Label layoutX="175.0" layoutY="40.0" text="Quantity">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Button fx:id="decreaseButton" layoutX="155.0" layoutY="121.0" mnemonicParsing="false" onAction="#handleDecrease" text="-" />
+      <Button fx:id="increaseButton" layoutX="275.0" layoutY="121.0" mnemonicParsing="false" onAction="#handleIncrease" text="+" />
+      <TextField fx:id="quantityTextField" layoutX="198.0" layoutY="121.0" prefHeight="25.0" prefWidth="53.0" />
+      <Button fx:id="confirmButton" layoutX="198.0" layoutY="255.0" mnemonicParsing="false" onAction="#handleConfirm" text="Confirm" />
+   </children>
+</AnchorPane>

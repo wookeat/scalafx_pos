@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/test.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kwk.pos.view.FoodMenuEditDialogController">
+   <children>
+      <GridPane layoutX="23.0" layoutY="75.0" prefHeight="230.0" prefWidth="545.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="268.0" minWidth="10.0" prefWidth="183.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="351.0" minWidth="10.0" prefWidth="90.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="351.0" minWidth="10.0" prefWidth="285.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Product Name">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="foodNameTextField" prefHeight="25.0" prefWidth="373.0" GridPane.columnIndex="1" GridPane.columnSpan="2" />
+            <Label text="Product Price" GridPane.rowIndex="1">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="foodPriceTextField" prefHeight="25.0" prefWidth="373.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+            <Label text="Available" GridPane.rowIndex="2">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <RadioButton fx:id="trueRadioButton" mnemonicParsing="false" text="True" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <RadioButton fx:id="falseRadioButton" mnemonicParsing="false" text="False" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+         </children>
+      </GridPane>
+      <ButtonBar layoutX="368.0" layoutY="324.0" prefHeight="40.0" prefWidth="200.0">
+         <buttons>
+            <Button fx:id="confirmButton" defaultButton="true" mnemonicParsing="false" onAction="#handleConfirm" styleClass="add-button" text="Confirm" />
+            <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#handleCancel" styleClass="cancel-button" text="Cancel" />
+         </buttons>
+      </ButtonBar>
+      <Label fx:id="operationLabel" alignment="CENTER" layoutX="183.0" layoutY="38.0" prefHeight="27.0" prefWidth="234.0" AnchorPane.leftAnchor="183.0" AnchorPane.rightAnchor="183.0">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

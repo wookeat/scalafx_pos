@@ -1,0 +1,206 @@
+@font-face {
+    font-family: 'Gilroy-Regular';
+    src: url('Gilroy-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Gilroy-SemiBold';
+    src: url('Gilroy-SemiBold.ttf');
+}
+
+@font-face {
+    font-family: 'Gilroy-Bold';
+    src: url('Gilroy-Bold.ttf');
+}
+
+.root{
+    -fx-font-family: "Gilroy-Regular";
+    -fx-background-color: white;
+}
+
+.root{
+    -fx-font-family: "Gilroy-SemiBold";
+}
+
+.box-border{
+    /*-fx-border-color: rgba(96, 75, 232, 0.5);*/
+    /*-fx-border-width: 2px;*/
+    /*-fx-border-style: solid;*/
+    /*-fx-border-radius: 10px;*/
+    -fx-background-color: white;
+    -fx-background-radius: 20px;
+}
+
+.box-border .label{
+    -fx-font-family: "Gilroy-Bold";
+    -fx-text-fill: #604BE8;
+    -fx-font-size: 16;
+}
+
+.tab-pane-border{
+
+    -fx-background-radius: 200px;
+    -fx-background-color: transparent;
+}
+
+.tab-pane .tab-header-area .tab-header-background{
+    -fx-background-color: transparent;
+}
+
+.tab{
+    -fx-pref-height: 40;
+    -fx-pref-width: 200;
+    -fx-background-color: #f0f4fd;
+    -fx-font-family: "Gilroy-Bold";
+    -fx-background-radius: 15px 15px 0px 0px;
+    -fx-font-size: 18;
+    -fx-padding: 0 0 0 15;
+}
+
+.scroll-pane, .anchor-pane{
+    -fx-border-color: #604BE8;
+    -fx-border-width: 2px;
+    -fx-border-style: solid;
+    -fx-border-radius: 5px;
+    -fx-background-color: #f0f4fd;
+}
+
+.tab .focus-indicator{
+    -fx-border-width: 0 ;
+    -fx-border-color: transparent;
+    -fx-border-insets: 0;
+    -fx-border-radius: 0;
+}
+
+.tab:selected{
+    -fx-background-color: #604BE8;
+    -fx-text-base-color: white;
+}
+
+/*Button*/
+.button{
+    -fx-font-family: "Gilroy-SemiBold";
+}
+
+.add-button, .confirm-button{
+    -fx-background-color: #06D6A0;
+    -fx-text-fill: white;
+    -fx-background-radius: 8px;
+}
+
+.add-button:hover, .confirm-button:hover{
+    -fx-text-fill: #06D6A0;
+    -fx-background-color: white;
+    -fx-border-color: #06D6A0;
+    -fx-border-radius: 8px;
+    -fx-border-width: 2px;
+    -fx-border-insets: 0;
+    -fx-padding: 0;
+}
+
+.edit-button{
+    -fx-background-color: #FDC848;
+    -fx-text-fill: white;
+    -fx-background-radius: 8px;
+}
+
+.edit-button:hover{
+    -fx-text-fill: #FDC848;
+    -fx-background-color: white;
+    -fx-border-color: #FDC848;
+    -fx-border-radius: 8px;
+    -fx-border-width: 2px;
+    -fx-padding: 0;
+}
+
+.cancel-button{
+    -fx-background-color: #FF595E;
+    -fx-text-fill: white;
+    -fx-background-radius: 8px;
+}
+
+.cancel-button:hover{
+    -fx-text-fill: #FF595E;
+    -fx-background-color: white;
+    -fx-border-color: #FF595E;
+    -fx-border-radius: 8px;
+    -fx-border-width: 2px;
+    -fx-padding: 0;
+}
+
+.back-button{
+    -fx-background-color: #604BE8;
+    -fx-text-fill: white;
+    -fx-background-radius: 8px;
+}
+
+.back-button:hover{
+    -fx-text-fill: #604BE8;
+    -fx-background-color: white;
+    -fx-border-color: #604BE8;
+    -fx-border-radius: 8px;
+    -fx-border-width: 2px;
+    -fx-padding: 0;
+}
+
+/*https://edencoding.com/style-tableview-javafx/*/
+.table-view{
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header-background{
+    -fx-background-color: #604BE8;
+    -fx-background-radius: 7px 7px 0px 0px;
+}
+
+.table-view .column-header{
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header .label{
+    -fx-font-family: "Gilroy-Bold";
+    -fx-text-fill: white;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.table-view .table-cell{
+    -fx-border-color: transparent;
+}
+
+/*.table-row-cell:hover{*/
+/*    -fx-background-color: rgba(96, 75, 232, 0.5);*/
+/*    -fx-text-fill: red;*/
+/*}*/
+
+.table-view:row-selection .table-row-cell:filled:hover {
+    -fx-background-color: rgba(96, 75, 232, 0.5);
+}
+
+.table-view:row-selection .table-row-cell:selected{
+    -fx-background-color: rgba(96, 75, 232, 0.5);
+}
+
+.table-view:row-selection .table-row-cell:filled:focused:hover{
+    -fx-background-color: rgba(96, 75, 232, 0.5);
+    -fx-text-fill: white;
+}
+
+
+/*.table-row-cell :odd{*/
+/*    -fx-background-color: rgba(96, 75, 232, 0.5);*/
+/*    -fx-background-insets: 0, 0 0 1 0;*/
+/*    -fx-padding: 0.0em;*/
+/*}*/
+/*.table-row-cell :even{*/
+/*    -fx-background-color: white;*/
+/*    -fx-background-insets: 0, 0 0 1 0;*/
+/*    -fx-padding: 0.0em;*/
+/*}*/
+
+.table-view .column-header-background .filler {
+    -fx-background-color: transparent;
+}
+
+.table-view .corner {
+    -fx-background-color: transparent;
+}
