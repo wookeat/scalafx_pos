@@ -1,11 +1,11 @@
 package com.kwk.pos.view
 
 import com.kwk.pos.MainApp
-import com.kwk.pos.modal.{Beverage, Food, OrderItem, Table}
+import com.kwk.pos.modal.{Beverage, Food, Order, OrderItem, Table}
 import javafx.scene.control.SelectionMode
 import scalafx.beans.property.{BooleanProperty, ObjectProperty, StringProperty}
 import scalafx.event.ActionEvent
-import scalafx.scene.control.{Label, Tab, TableColumn, TableRow, TableView}
+import scalafx.scene.control.{Button, Label, Tab, TableColumn, TableRow, TableView}
 import scalafx.Includes._
 import scalafx.geometry.{Insets, Pos}
 import javafx.{scene => jfxs}
@@ -15,6 +15,8 @@ import scalafx.scene.image.ImageView
 import scalafx.scene.layout.{AnchorPane, ColumnConstraints, GridPane, Priority, RowConstraints, StackPane, TilePane, VBox}
 import scalafx.scene.shape.Rectangle
 import scalafxml.core.macros.sfxml
+
+import java.time.LocalDateTime
 
 trait TableOrderTrait{
   var table: Table = _
@@ -35,14 +37,28 @@ class TableOrderController(
                             private val totalAmountLabel: Label,
                             private val foodMenuTab: Tab,
                             private val foodMenuAnchorPane: AnchorPane,
-                            private val beverageMenuAnchorPane: AnchorPane
+                            private val beverageMenuAnchorPane: AnchorPane,
+                            private val paymentButton: Button
                           ) extends TableOrderTrait{
   def getAnchorPane: AnchorPane = anchorPane
+  var order: Order = null
+  var paymentStatus: BooleanProperty = null
 
   def initialize(): Unit = {
+    order = table.order match {
+      case Some(order) => order
+      case None => Order(LocalDateTime.now())
+    }
+
+    paymentStatus = table.order match {
+      case Some(order) => BooleanProperty(true)
+      case None => BooleanProperty(false)
+    }
+    paymentButton.disable <== !paymentStatus
+
     foodMenuTab.getStyleClass.add("tab-border")
     tableNumberLabel.text = table.id.value
-    tableOrderTable.items = table.order
+    tableOrderTable.items = order.items //
 
     orderNameColumn.cellValueFactory = { cellData =>
       cellData.value.product match {
@@ -68,7 +84,11 @@ class TableOrderController(
       row
     })
 
-    totalAmountLabel.text <== table.totalSum.asString()
+
+    totalAmountLabel.text <== StringProperty(f"RM ${order.totalSum.value}%.2f")
+    order.totalSum.onChange((a,b, newValue) => {
+      totalAmountLabel.text <== StringProperty(f"RM ${order.totalSum.value}%.2f")
+    })
 
     initializeFoodMenu()
     initializeBeverageMenu()
@@ -79,6 +99,8 @@ class TableOrderController(
       initializeFoodMenu()
     })
   }
+
+
 
   def initializeFoodMenu(): Unit = {
     val gridPane = new GridPane(){
@@ -123,7 +145,7 @@ class TableOrderController(
       foodNameLabel.text <== MainApp.menu(i).name
 
       val foodPriceLabel = new Label()
-      foodPriceLabel.text <== StringProperty(s"RM ${MainApp.menu(i).price.value}")
+      foodPriceLabel.text <== StringProperty(f"RM ${MainApp.menu(i).price.value}%.2f")
 
       val vBox = new VBox(){
         prefWidth = 200
@@ -143,7 +165,7 @@ class TableOrderController(
       vBox.onMouseClicked = ev => {
         val vbox = ev.source.asInstanceOf[jfxs.layout.VBox]
         vbox.userData match {
-          case food: Food => MainApp.showTableAddOrderDialog(food, table)
+          case food: Food => MainApp.showTableAddOrderDialog(food, order)
           case _ => ""
         }
       }
@@ -198,7 +220,7 @@ class TableOrderController(
       beverageNameLabel.text <== MainApp.beverageMenu(i).name
 
       val beveragePriceLabel = new Label()
-      beveragePriceLabel.text <== StringProperty(s"RM ${MainApp.beverageMenu(i).price.value}")
+      beveragePriceLabel.text <== StringProperty(f"RM ${MainApp.beverageMenu(i).price.value}%.2f")
 
       val vBox = new VBox(){
         prefWidth = 200
@@ -218,7 +240,7 @@ class TableOrderController(
       vBox.onMouseClicked = ev => {
         val vbox = ev.source.asInstanceOf[jfxs.layout.VBox]
         vbox.userData match {
-          case beverage: Beverage => MainApp.showTableAddBeverageDialog(beverage, table)
+          case beverage: Beverage => MainApp.showTableAddBeverageDialog(beverage, order)
           case _ => ""
         }
       }
@@ -231,6 +253,15 @@ class TableOrderController(
   }
 
   def handleBack(actionEvent: ActionEvent): Unit = {
+    MainApp.showOverview()
+  }
+
+  def handlePayment(actionEvent: ActionEvent): Unit = {
+    MainApp.showPaymentDialog(table)
+  }
+
+  def handleConfirm(actionEvent: ActionEvent): Unit = {
+    table.order = Option(order)
     MainApp.showOverview()
   }
 }

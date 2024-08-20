@@ -89,7 +89,6 @@ class FoodMenuEditDialogController(
       }
     }
 
-
     if(errorMessage.length() == 0){
       return true
     }else{

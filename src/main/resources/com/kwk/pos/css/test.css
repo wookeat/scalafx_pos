@@ -13,13 +13,44 @@
     src: url('Gilroy-Bold.ttf');
 }
 
-.root{
-    -fx-font-family: "Gilroy-Regular";
-    -fx-background-color: white;
-}
+/*.root{*/
+/*    !*-fx-font-family: "Gilroy-Regular";*!*/
+/*    -fx-background-color: white;*/
+/*}*/
 
 .root{
     -fx-font-family: "Gilroy-SemiBold";
+    -fx-background-color: white;
+}
+
+.dialog-label{
+    -fx-font-family: "Gilroy-SemiBold";
+    -fx-font-size: 24;
+}
+
+.label{
+    -fx-text-fill: #604BE8;
+}
+
+.payment-ringgit-label{
+    -fx-text-fill: white;
+}
+
+.payment-ringgit-label:hover{
+    -fx-cursor: hand;
+}
+
+.payment-balance-label{
+    -fx-text-fill: #FF595E;
+}
+
+.payment-text-field{
+    -fx-font-size: 24;
+}
+
+.radio-button-label{
+    -fx-font-family: "Gilroy-SemiBold";
+    -fx-font-size: 14;
 }
 
 .box-border{
@@ -82,13 +113,14 @@
     -fx-font-family: "Gilroy-SemiBold";
 }
 
-.add-button, .confirm-button{
+
+.add-button, .confirm-button, .payment-confirm-button{
     -fx-background-color: #06D6A0;
     -fx-text-fill: white;
     -fx-background-radius: 8px;
 }
 
-.add-button:hover, .confirm-button:hover{
+.add-button:hover, .confirm-button:hover, .payment-confirm-button:hover{
     -fx-text-fill: #06D6A0;
     -fx-background-color: white;
     -fx-border-color: #06D6A0;
@@ -96,6 +128,10 @@
     -fx-border-width: 2px;
     -fx-border-insets: 0;
     -fx-padding: 0;
+}
+
+.payment-confirm-button, .payment-confirm-button:hover{
+    -fx-font-size: 24;
 }
 
 .edit-button{
@@ -113,13 +149,13 @@
     -fx-padding: 0;
 }
 
-.cancel-button{
+.cancel-button, .payment-cancel-button{
     -fx-background-color: #FF595E;
     -fx-text-fill: white;
     -fx-background-radius: 8px;
 }
 
-.cancel-button:hover{
+.cancel-button:hover, .payment-cancel-button:hover{
     -fx-text-fill: #FF595E;
     -fx-background-color: white;
     -fx-border-color: #FF595E;
@@ -128,13 +164,21 @@
     -fx-padding: 0;
 }
 
-.back-button{
+.payment-cancel-button:hover{
+    -fx-font-size: 24;
+}
+
+/*.process-payment-button .process-payment-button:hover{*/
+/*    -fx-font-size: 32;*/
+/*}*/
+
+.back-button, .quantity-button, .process-payment-button{
     -fx-background-color: #604BE8;
     -fx-text-fill: white;
     -fx-background-radius: 8px;
 }
 
-.back-button:hover{
+.back-button:hover, .quantity-button:hover, .process-payment-button:hover{
     -fx-text-fill: #604BE8;
     -fx-background-color: white;
     -fx-border-color: #604BE8;

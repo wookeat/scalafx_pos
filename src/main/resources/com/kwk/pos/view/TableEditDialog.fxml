@@ -4,19 +4,43 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="335.0" prefWidth="454.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kwk.pos.view.TableEditDialogController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="335.0" prefWidth="454.0" stylesheets="@../css/test.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kwk.pos.view.TableEditDialogController">
    <children>
-      <Button fx:id="removeItemButton" layoutX="184.0" layoutY="205.0" mnemonicParsing="false" onAction="#handleRemove" text="Remove Item" />
-      <Label layoutX="175.0" layoutY="40.0" text="Quantity">
+      <HBox alignment="CENTER" layoutX="92.0" layoutY="212.0" prefHeight="35.0" prefWidth="273.0" spacing="30.0">
+         <children>
+            <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#handleConfirm" prefHeight="30.0" prefWidth="100.0" styleClass="confirm-button" text="Confirm" />
+            <Button fx:id="removeItemButton" mnemonicParsing="false" onAction="#handleRemove" prefHeight="30.0" prefWidth="100.0" styleClass="cancel-button" text="Remove Item" />
+         </children>
+      </HBox>
+      <Label layoutX="152.0" layoutY="46.0" styleClass="dialog-title-label" text="Edit Item">
          <font>
-            <Font name="System Bold" size="24.0" />
+            <Font name="System Bold" size="36.0" />
          </font>
       </Label>
-      <Button fx:id="decreaseButton" layoutX="155.0" layoutY="121.0" mnemonicParsing="false" onAction="#handleDecrease" text="-" />
-      <Button fx:id="increaseButton" layoutX="275.0" layoutY="121.0" mnemonicParsing="false" onAction="#handleIncrease" text="+" />
-      <TextField fx:id="quantityTextField" layoutX="198.0" layoutY="121.0" prefHeight="25.0" prefWidth="53.0" />
-      <Button fx:id="confirmButton" layoutX="198.0" layoutY="255.0" mnemonicParsing="false" onAction="#handleConfirm" text="Confirm" />
+      <GridPane layoutX="63.0" layoutY="125.0" prefHeight="53.0" prefWidth="332.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="161.0" minWidth="10.0" prefWidth="125.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="243.0" minWidth="10.0" prefWidth="207.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <HBox alignment="CENTER" prefHeight="53.0" prefWidth="206.0" spacing="20.0" GridPane.columnIndex="1">
+               <children>
+                  <Button fx:id="decreaseButton" mnemonicParsing="false" onAction="#handleDecrease" prefHeight="25.0" prefWidth="25.0" styleClass="quantity-button" text="-" />
+                  <TextField fx:id="quantityTextField" prefHeight="25.0" prefWidth="95.0" />
+                  <Button fx:id="increaseButton" mnemonicParsing="false" onAction="#handleIncrease" prefHeight="25.0" prefWidth="25.0" styleClass="quantity-button" text="+" />
+               </children>
+            </HBox>
+            <Label styleClass="dialog-label" text="Quantity" />
+         </children>
+      </GridPane>
    </children>
 </AnchorPane>

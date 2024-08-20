@@ -1,7 +1,7 @@
 package com.kwk.pos
 
-import com.kwk.pos.modal.{Beverage, Food, OrderItem, Product, Table}
-import com.kwk.pos.view.{FoodMenuEditDialogController, MenuSelectionController, MenuSelectionTrait, MenuTrait, OverviewTrait, RestaurantLayoutTrait, TableAddBeverageDialogController, TableAddOrderDialogController, TableEditDialogController, TableOrderTrait, TableOverviewController, TableOverviewTrait}
+import com.kwk.pos.modal.{Beverage, Food, Order, OrderItem, Product, Table}
+import com.kwk.pos.view.{FoodMenuEditDialogController, MenuSelectionController, MenuSelectionTrait, MenuTrait, OverviewTrait, PaymentDialogController, RestaurantLayoutTrait, TableAddBeverageDialogController, TableAddOrderDialogController, TableEditDialogController, TableOrderTrait, TableOverviewController, TableOverviewTrait}
 import scalafx.application.JFXApp
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.collections.ObservableBuffer
@@ -156,7 +156,30 @@ object MainApp extends JFXApp{
     controller.okClicked
   }
 
-  def showTableAddOrderDialog(product: Product, table: Table): Boolean = {
+//  def showTableAddOrderDialog(product: Product, table: Table): Boolean = {
+//    val resource = getClass.getResourceAsStream("view/TableAddOrderDialog.fxml")
+//    val loader = new FXMLLoader(null, NoDependencyResolver)
+//    loader.load(resource)
+//    val roots2 = loader.getRoot[jfxs.Parent]
+//    val controller = loader.getController[TableAddOrderDialogController#Controller]
+//
+//    val dialog = new Stage(){
+//      initModality(Modality.ApplicationModal)
+//      initOwner(stage)
+//      scene = new Scene{
+//        stylesheets += getClass.getResource("css/test.css").toString
+//        root = roots2
+//      }
+//    }
+//    controller.dialogStage = dialog
+//    controller.product = product
+//    controller.table = table
+//    controller.initialize()
+//    dialog.showAndWait()
+//    controller.okClicked
+//  }
+
+  def showTableAddOrderDialog(product: Product, order: Order): Boolean = {
     val resource = getClass.getResourceAsStream("view/TableAddOrderDialog.fxml")
     val loader = new FXMLLoader(null, NoDependencyResolver)
     loader.load(resource)
@@ -173,13 +196,35 @@ object MainApp extends JFXApp{
     }
     controller.dialogStage = dialog
     controller.product = product
-    controller.table = table
+    controller.order = order
     controller.initialize()
     dialog.showAndWait()
     controller.okClicked
   }
 
-  def showTableAddBeverageDialog(beverage: Beverage, table: Table): Boolean = {
+//  def showTableAddBeverageDialog(beverage: Beverage, table: Table): Boolean = {
+//    val resource = getClass.getResourceAsStream("view/TableAddBeverageDialog.fxml")
+//    val loader = new FXMLLoader(null, NoDependencyResolver)
+//    loader.load(resource)
+//    val roots2 = loader.getRoot[jfxs.Parent]
+//    val controller = loader.getController[TableAddBeverageDialogController#Controller]
+//
+//    val dialog = new Stage(){
+//      initModality(Modality.ApplicationModal)
+//      initOwner(stage)
+//      scene = new Scene{
+//        root = roots2
+//      }
+//    }
+//    controller.dialogStage = dialog
+//    controller.beverage = beverage
+//    controller.table = table
+//    controller.initialize()
+//    dialog.showAndWait()
+//    controller.okClicked
+//  }
+
+  def showTableAddBeverageDialog(beverage: Beverage, order: Order): Boolean = {
     val resource = getClass.getResourceAsStream("view/TableAddBeverageDialog.fxml")
     val loader = new FXMLLoader(null, NoDependencyResolver)
     loader.load(resource)
@@ -190,12 +235,13 @@ object MainApp extends JFXApp{
       initModality(Modality.ApplicationModal)
       initOwner(stage)
       scene = new Scene{
+        stylesheets += getClass.getResource("css/test.css").toString
         root = roots2
       }
     }
     controller.dialogStage = dialog
     controller.beverage = beverage
-    controller.table = table
+    controller.order = order
     controller.initialize()
     dialog.showAndWait()
     controller.okClicked
@@ -242,6 +288,28 @@ object MainApp extends JFXApp{
     controller.dialogStage = dialog
     controller.product = beverage
     controller.operation = operation
+    controller.initialize()
+    dialog.showAndWait()
+    controller.okClicked
+  }
+
+  def showPaymentDialog(table: Table): Boolean = {
+    val resource = getClass.getResourceAsStream("view/PaymentDialog.fxml")
+    val loader = new FXMLLoader(null, NoDependencyResolver)
+    loader.load(resource)
+    val roots2 = loader.getRoot[jfxs.Parent]
+    val controller = loader.getController[PaymentDialogController#Controller]
+
+    val dialog = new Stage(){
+      initModality(Modality.ApplicationModal)
+      initOwner(stage)
+      scene = new Scene{
+        stylesheets += getClass.getResource("css/test.css").toString
+        root = roots2
+      }
+    }
+    controller.dialogStage = dialog
+    controller.table = table
     controller.initialize()
     dialog.showAndWait()
     controller.okClicked

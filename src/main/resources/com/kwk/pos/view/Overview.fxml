@@ -50,22 +50,22 @@
                      <children>
                         <Label text="Name">
                            <font>
-                              <Font size="18.0" />
+                              <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
                         <Label text="Price" GridPane.rowIndex="1">
                            <font>
-                              <Font size="18.0" />
+                              <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
                         <Label fx:id="foodNameLabel" GridPane.columnIndex="1">
                            <font>
-                              <Font size="18.0" />
+                              <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
                         <Label fx:id="foodPriceLabel" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <font>
-                              <Font size="18.0" />
+                              <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
                         <ImageView fx:id="foodImageView" fitHeight="161.0" fitWidth="336.0" pickOnBounds="true" preserveRatio="true" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
@@ -115,22 +115,22 @@
                      <children>
                         <Label text="Name">
                            <font>
-                              <Font size="18.0" />
+                              <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
                         <Label text="Price" GridPane.rowIndex="1">
                            <font>
-                              <Font size="18.0" />
+                              <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
                         <Label fx:id="beverageNameLabel" GridPane.columnIndex="1">
                            <font>
-                              <Font size="18.0" />
+                              <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
                         <Label fx:id="beveragePriceLabel" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <font>
-                              <Font size="18.0" />
+                              <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
                         <ImageView fx:id="beverageImageView" fitHeight="161.0" fitWidth="336.0" pickOnBounds="true" preserveRatio="true" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />

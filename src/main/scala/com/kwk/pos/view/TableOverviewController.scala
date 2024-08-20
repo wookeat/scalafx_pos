@@ -39,7 +39,7 @@ class TableOverviewController(
 
   def initialize(): Unit = {
     tableNum.text = s"Table ${table.id.getValue}"
-    tableOrderTable.items = table.order
+    tableOrderTable.items = table.order.get.items
     println(s"test: ${table} ")
     orderNameColumn.cellValueFactory = { _.value.product.name }
 
@@ -65,14 +65,14 @@ class TableOverviewController(
       row
     })
 
-    totalAmountLabel.text <== table.totalSum.asString()
+    totalAmountLabel.text <== table.order.get.totalSum.asString()
     rightPane.children.clear()
     rightPane.children.add(MainApp.menuSelectionTrait.getMenuSelectionPane)
     MainApp.menuSelectionTrait.table = table
   }
 
   def calculateTotalSum(): Double = {
-    val total = table.order.foldRight(0.00)((x,_) => x.sum.value)
+    val total = table.order.foldRight(0.00)((x,_) => x.totalSum.value)
 
     total
   }

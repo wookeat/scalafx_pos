@@ -55,7 +55,7 @@ class MenuController(
   def handleAddItem(action: ActionEvent): Unit = {
     val selectedItem = menuTable.selectionModel().selectedItem.value
     println(selectedItem)
-    table.addItem(selectedItem, quantity.value)
+    table.order.get.addItem(selectedItem, quantity.value)
     quantity.value = 1
   }
 

@@ -53,7 +53,7 @@ class TableEditDialogController(
   }
 
   def handleRemove(actionEvent: ActionEvent): Unit = {
-    MainApp.tableOrderTrait.table.order.remove(orderItem)
+    MainApp.tableOrderTrait.table.order.get.items.remove(orderItem)
     dialogStage.close()
   }
 

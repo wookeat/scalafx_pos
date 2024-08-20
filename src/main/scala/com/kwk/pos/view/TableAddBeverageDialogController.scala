@@ -2,7 +2,7 @@ package com.kwk.pos.view
 
 import scalafx.scene.control.{Label, RadioButton, TextField, ToggleGroup}
 import scalafxml.core.macros.sfxml
-import com.kwk.pos.modal.{Beverage, Product, Sweetness, Table, Temperature}
+import com.kwk.pos.modal.{Beverage, Order, Product, Sweetness, Table, Temperature}
 import scalafx.beans.property.{IntegerProperty, ObjectProperty}
 import scalafx.event.ActionEvent
 import scalafx.stage.Stage
@@ -12,7 +12,7 @@ trait TableAddBeverageDialogTrait{
   def initialize(): Unit
   var dialogStage: Stage = _
   var beverage: Beverage = _
-  var table: Table = _
+  var order: Order = _
   var okClicked: Boolean = false
 }
 
@@ -79,7 +79,7 @@ class TableAddBeverageDialogController(
     val tempBeverage = new Beverage(beverage.name.value, beverage.price.value, beverage.available.value)
     tempBeverage.sweetness <== sweetnessToggleState
     tempBeverage.temperature <== tempToggleState
-    table.addItem(tempBeverage, quantity.value)
+    order.addItem(tempBeverage, quantity.value)
     println(s"${tempBeverage.sweetness.value.sweetness}")
     dialogStage.close()
   }

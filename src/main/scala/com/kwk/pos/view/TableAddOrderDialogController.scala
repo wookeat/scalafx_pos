@@ -2,7 +2,7 @@ package com.kwk.pos.view
 
 import scalafx.scene.control.{Label, TextField}
 import scalafxml.core.macros.sfxml
-import com.kwk.pos.modal.{Product, Table}
+import com.kwk.pos.modal.{Order, Product, Table}
 import scalafx.beans.property.ObjectProperty
 import scalafx.event.ActionEvent
 import scalafx.stage.Stage
@@ -11,7 +11,7 @@ trait TableAddOrderDialogTrait{
   def initialize(): Unit
   var dialogStage: Stage = _
   var product: Product = _
-  var table: Table = _
+  var order: Order = _
   var okClicked: Boolean = false
 }
 
@@ -41,7 +41,7 @@ class TableAddOrderDialogController(
   }
 
   def handleConfirm(actionEvent: ActionEvent): Unit = {
-    table.addItem(product, quantity.value)
+    order.addItem(product, quantity.value)
     dialogStage.close()
   }
 
