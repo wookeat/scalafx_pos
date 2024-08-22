@@ -22,6 +22,7 @@
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
@@ -37,13 +38,20 @@
                </font>
             </Label>
             <TextField fx:id="foodPriceTextField" prefHeight="25.0" prefWidth="373.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
-            <Label text="Available" GridPane.rowIndex="2">
+            <Label text="Available" GridPane.rowIndex="3">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <RadioButton fx:id="trueRadioButton" mnemonicParsing="false" text="True" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <RadioButton fx:id="falseRadioButton" mnemonicParsing="false" text="False" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <RadioButton fx:id="trueRadioButton" mnemonicParsing="false" text="True" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <RadioButton fx:id="falseRadioButton" mnemonicParsing="false" text="False" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <Label text="Product Image" GridPane.rowIndex="2">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="browseFileButton" mnemonicParsing="false" onAction="#handleBrowseFile" prefHeight="25.0" prefWidth="80.0" styleClass="back-button" text="Browse File" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="filePathTextField" GridPane.columnIndex="2" GridPane.rowIndex="2" />
          </children>
       </GridPane>
       <Label fx:id="operationLabel" alignment="CENTER" layoutX="183.0" layoutY="38.0" prefHeight="27.0" prefWidth="234.0" AnchorPane.leftAnchor="183.0" AnchorPane.rightAnchor="183.0">
@@ -51,7 +59,7 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <HBox alignment="CENTER" layoutX="196.0" layoutY="313.0" prefHeight="35.0" prefWidth="200.0" spacing="30.0">
+      <HBox alignment="CENTER" layoutX="200.0" layoutY="312.0" prefHeight="35.0" prefWidth="200.0" spacing="30.0">
          <children>
             <Button fx:id="confirmButton" defaultButton="true" mnemonicParsing="false" onAction="#handleConfirm" prefHeight="25.0" prefWidth="120.0" styleClass="add-button" text="Confirm" />
             <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#handleCancel" prefHeight="25.0" prefWidth="120.0" styleClass="cancel-button" text="Cancel" />

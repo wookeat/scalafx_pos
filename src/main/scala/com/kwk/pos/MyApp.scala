@@ -58,6 +58,7 @@ object MainApp extends JFXApp{
   stage = new PrimaryStage{
     title = "Point of Sale"
     scene = new Scene{
+      stylesheets += getClass.getResource("css/test.css").toString
       root = roots
     }
   }

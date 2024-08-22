@@ -246,12 +246,14 @@ class OverviewController(
   def handleEditFood(actionEvent: ActionEvent): Unit = {
     val food = foodMenuTableView.selectionModel.value.selectedItem.value
     MainApp.showFoodMenuEditDialog(food, "Edit Food")
+    showFoodMenuDetails(Option(food))
   }
 
   // Event handler to edit beverage details in Beverage menu
   def handleEditBeverage(actionEvent: ActionEvent): Unit = {
     val beverage = beverageMenuTableView.selectionModel.value.selectedItem.value
     MainApp.showBeverageMenuEditDialog(beverage, "Edit Beverage")
+    showBeverageMenuDetails(Option(beverage))
   }
 
   // Event handler to remove food from Food menu

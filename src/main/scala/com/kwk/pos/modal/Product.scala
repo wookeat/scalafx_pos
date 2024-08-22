@@ -8,7 +8,7 @@ trait Product {
   def name: StringProperty
   def price: ObjectProperty[Double]
   def available: ObjectProperty[Boolean]
-  def imagePath: ObjectProperty[Image]
+  var imagePath: ObjectProperty[Image]
 
   // Override equals method to allow the Food and Beverage implements their own
   // customized equals comparison method respectively

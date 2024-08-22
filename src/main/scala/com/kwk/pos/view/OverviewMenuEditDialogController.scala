@@ -5,10 +5,14 @@ import com.kwk.pos.modal.{Food, Product}
 import scalafx.beans.property.{BooleanProperty, ObjectProperty, StringProperty}
 import scalafx.event.ActionEvent
 import scalafx.scene.control.{Alert, Button, Label, RadioButton, TextField, ToggleGroup}
-import scalafx.stage.Stage
+import scalafx.stage.{FileChooser, Stage}
 import scalafxml.core.macros.sfxml
 import scalafx.Includes._
+import javafx.scene.image.Image
+import scalafx.stage.FileChooser.ExtensionFilter
 
+import java.io.File
+import java.net.URL
 import scala.util.{Failure, Success, Try}
 
 trait FoodMenuEditDialogTrait{
@@ -28,9 +32,13 @@ class OverviewMenuEditDialogController(
                                     private val falseRadioButton: RadioButton,
                                     private val operationLabel: Label,
                                     private val cancelButton: Button,
-                                    private val confirmButton: Button
+                                    private val confirmButton: Button,
+                                    private val filePathTextField: TextField
                                   ) extends FoodMenuEditDialogTrait{
-
+  val fileChooser = new FileChooser{
+    title = "Open Resource File"
+    new ExtensionFilter("Image Files", Seq("*.png", "*.jpg", "*.jpeg"))
+  }
   val toggleState = ObjectProperty(false)
   val toggleGroup = new ToggleGroup()
   trueRadioButton.toggleGroup = toggleGroup
@@ -40,6 +48,7 @@ class OverviewMenuEditDialogController(
     operationLabel.text.value = operation
     foodNameTextField.text.value = product.name.value
     foodPriceTextField.text.value = product.price.value.toString
+    filePathTextField.disable = true
     trueRadioButton.setSelected(product.available.value)
     falseRadioButton.setSelected(!product.available.value)
   }
@@ -53,11 +62,22 @@ class OverviewMenuEditDialogController(
     ObjectProperty(textField.text.value.toDouble)
   }
 
+  def handleBrowseFile(actionEvent: ActionEvent): Unit = {
+    val selectedFilePath = fileChooser.showOpenDialog(MainApp.stage).toPath
+    filePathTextField.text <== StringProperty(selectedFilePath.toString)
+  }
+
   def handleConfirm(actionEvent: ActionEvent): Unit = {
     if(isInputValid()){
       product.name <== foodNameTextField.text
       product.available <== toggleState
       product.price <== convertTextToDouble(foodPriceTextField)
+      filePathTextField.text.value match {
+        case s if s.isEmpty => s
+        case _ =>
+          val file = new File(filePathTextField.text.value)
+          product.imagePath = ObjectProperty[Image](new Image(file.toURI.toURL.toString))
+      }
       okClicked = true
       dialogStage.close()
     }
