@@ -6,9 +6,9 @@ import scalafx.beans.property.ObjectProperty
 import scala.language.implicitConversions
 
 object ImageUtil{
+  // Implicit function to convert image path to ObjectProperty[Image] for new Food/Beverage object
   implicit def pathToImageConverter(path: String): ObjectProperty[Image] = {
     val url = getClass.getResource(path)
-    println(s"${url} url ${path}")
     ObjectProperty(new Image(url.toString))
   }
 }

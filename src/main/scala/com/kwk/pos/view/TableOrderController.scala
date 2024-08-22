@@ -38,7 +38,8 @@ class TableOrderController(
                             private val foodMenuTab: Tab,
                             private val foodMenuAnchorPane: AnchorPane,
                             private val beverageMenuAnchorPane: AnchorPane,
-                            private val paymentButton: Button
+                            private val paymentButton: Button,
+                            private val confirmOrderButton: Button
                           ) extends TableOrderTrait{
   def getAnchorPane: AnchorPane = anchorPane
   var order: Order = null
@@ -46,19 +47,22 @@ class TableOrderController(
 
   def initialize(): Unit = {
     order = table.order match {
-      case Some(order) => order
-      case None => Order(LocalDateTime.now())
+      case Some(order) => order   //Retrieve existing order from the table
+      case None => Order(LocalDateTime.now())   //Create a new order if the table does not have an existing table
     }
 
+    // To ensure the payment button is active only if there is an order
     paymentStatus = table.order match {
       case Some(order) => BooleanProperty(true)
       case None => BooleanProperty(false)
     }
     paymentButton.disable <== !paymentStatus
 
+    // To ensure the confirm button is active only if there is item in the order
+    confirmOrderButton.disable <== BooleanProperty(order.items.isEmpty)
     foodMenuTab.getStyleClass.add("tab-border")
     tableNumberLabel.text = table.id.value
-    tableOrderTable.items = order.items //
+    tableOrderTable.items = order.items
 
     orderNameColumn.cellValueFactory = { cellData =>
       cellData.value.product match {
@@ -66,7 +70,6 @@ class TableOrderController(
         case food: Food => food.name
       }
     }
-
     orderPriceColumn.cellValueFactory = { _.value.product.price }
     orderNumberColumn.cellValueFactory = { cellData =>
       ObjectProperty[Integer](tableOrderTable.items.value.indexOf(cellData.value) + 1)
@@ -74,39 +77,48 @@ class TableOrderController(
     orderQuantityColumn.cellValueFactory = { _.value.quantity }
     orderSumColumn.cellValueFactory = { _.value.sum }
 
+    // Initialize row onClick listener to trigger a dialog that allow user to edit the clicked item
     tableOrderTable.setRowFactory( t => {
       val row = new TableRow[OrderItem]()
       row.setOnMouseClicked(e => {
         if(row.getItem != null) {
-          MainApp.showTableEditDialog(row.getItem)
+          MainApp.showTableEditDialog(row.getItem, order)
         }
       })
       row
     })
 
-
     totalAmountLabel.text <== StringProperty(f"RM ${order.totalSum.value}%.2f")
+
+    // Ensure the total amount label reflect the changes when items are added or removed
     order.totalSum.onChange((a,b, newValue) => {
       totalAmountLabel.text <== StringProperty(f"RM ${order.totalSum.value}%.2f")
+    })
+
+    // Event listener to toggle the confirm order button
+    order.items.onChange((a, newValue) => {
+      confirmOrderButton.disable <== BooleanProperty(order.items.isEmpty)
     })
 
     initializeFoodMenu()
     initializeBeverageMenu()
 
+    //
     MainApp.menu.onChange({
       foodMenuAnchorPane.children.clear()
-      println(s"Check anchor pane child: ${foodMenuAnchorPane.children.size()}")
       initializeFoodMenu()
+    })
+
+    MainApp.beverageMenu.onChange({
+      beverageMenuAnchorPane.children.clear()
+      initializeBeverageMenu()
     })
   }
 
-
-
+  // Method to initialize the food menu
   def initializeFoodMenu(): Unit = {
     val gridPane = new GridPane(){
       alignmentInParent = Pos.Center
-//      hgap = 5
-//      vgap = 5
     }
     gridPane.prefHeight <== foodMenuAnchorPane.prefHeight
     gridPane.prefWidth <== foodMenuAnchorPane.prefWidth
@@ -135,6 +147,7 @@ class TableOrderController(
         alignmentInParent = Pos.Center
         fitHeight = 150
         fitWidth = 150
+        margin = Insets(10, 0, 0, 0)
       }
       imageView.autosize()
       imageView.imageProperty().bind(MainApp.menu(i).imagePath)
@@ -177,14 +190,13 @@ class TableOrderController(
     }
   }
 
+  // Method to initialize the beverage menu
   def initializeBeverageMenu(): Unit = {
     val gridPane = new GridPane(){
       alignmentInParent = Pos.Center
     }
     gridPane.prefHeight <== beverageMenuAnchorPane.height
     gridPane.prefWidth <== beverageMenuAnchorPane.width
-//    gridPane.hgrow = Priority.Always
-//    gridPane.vgrow = Priority.Always
 
     for (_ <- 0 until 3) {
       val column = new ColumnConstraints {
@@ -210,6 +222,7 @@ class TableOrderController(
         alignmentInParent = Pos.Center
         fitHeight = 150
         fitWidth = 150
+        margin = Insets(10, 0, 0, 0)
       }
       imageView.autosize()
       imageView.imageProperty().bind(MainApp.beverageMenu(i).imagePath)
@@ -252,14 +265,17 @@ class TableOrderController(
     }
   }
 
+  // Event handler to navigate back to main menu
   def handleBack(actionEvent: ActionEvent): Unit = {
     MainApp.showOverview()
   }
 
+  // Event handler to open payment dialog
   def handlePayment(actionEvent: ActionEvent): Unit = {
     MainApp.showPaymentDialog(table)
   }
 
+  // Event handler to register the new Order into the table
   def handleConfirm(actionEvent: ActionEvent): Unit = {
     table.order = Option(order)
     MainApp.showOverview()

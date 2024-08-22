@@ -20,7 +20,7 @@ trait FoodMenuEditDialogTrait{
 }
 
 @sfxml
-class FoodMenuEditDialogController(
+class OverviewMenuEditDialogController(
                                     private val foodIdTextField: TextField,
                                     private val foodNameTextField: TextField,
                                     private val foodPriceTextField: TextField,
@@ -37,7 +37,6 @@ class FoodMenuEditDialogController(
   falseRadioButton.toggleGroup = toggleGroup
 
   def initialize(): Unit = {
-    print(s"${operation}")
     operationLabel.text.value = operation
     foodNameTextField.text.value = product.name.value
     foodPriceTextField.text.value = product.price.value.toString
@@ -59,7 +58,6 @@ class FoodMenuEditDialogController(
       product.name <== foodNameTextField.text
       product.available <== toggleState
       product.price <== convertTextToDouble(foodPriceTextField)
-      println(s"toggle state: ${toggleState.value}")
       okClicked = true
       dialogStage.close()
     }
@@ -90,7 +88,7 @@ class FoodMenuEditDialogController(
     }
 
     if(errorMessage.length() == 0){
-      return true
+      true
     }else{
       val alert = new Alert(Alert.AlertType.Error){
         initOwner(dialogStage)
@@ -98,7 +96,7 @@ class FoodMenuEditDialogController(
         headerText = "Please correct invalid fields"
         contentText = errorMessage
       }.showAndWait()
-      return false
+      false
     }
   }
 

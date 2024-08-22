@@ -1,40 +1,47 @@
 package com.kwk.pos
 
 import com.kwk.pos.modal.{Beverage, Food, Order, OrderItem, Product, Table}
-import com.kwk.pos.view.{FoodMenuEditDialogController, MenuSelectionController, MenuSelectionTrait, MenuTrait, OverviewTrait, PaymentDialogController, RestaurantLayoutTrait, TableAddBeverageDialogController, TableAddOrderDialogController, TableEditDialogController, TableOrderTrait, TableOverviewController, TableOverviewTrait}
+import com.kwk.pos.view.{
+  OverviewMenuEditDialogController,
+  OverviewTrait,
+  PaymentDialogController,
+  TableAddBeverageDialogController,
+  TableAddOrderDialogController,
+  TableEditDialogController,
+  TableOrderTrait
+}
 import scalafx.application.JFXApp
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.collections.ObservableBuffer
 import scalafx.scene.Scene
 import scalafx.Includes._
 import javafx.{scene => jfxs}
-import scalafx.beans.property.{ObjectProperty, StringProperty}
-import scalafx.scene.image.Image
-import scalafx.scene.paint.Color
-import scalafx.stage.{Modality, Stage, StageStyle}
+import scalafx.stage.{Modality, Stage}
 import scalafxml.core.{FXMLLoader, NoDependencyResolver}
 
 object MainApp extends JFXApp{
 
+  // Food Menu Data
   val menu = new ObservableBuffer[Food]()
-  menu += new Food("Kaya Butter Toast", 10.50, true, "../img/Kaya-Butter-Toasts.jpg")
-  menu += new Food("Wanton Mee", 12.00, true)
-  menu += new Food("Fried Rice", 13.00, false)
-  menu += new Food("Nasi Lemak", 20, true)
-  menu += new Food("Nasi Padang", 18, false)
+  menu += new Food("Kaya Butter Toast", 8.50, true, "../img/food/kaya_butter_toast.jpg")
+  menu += new Food("Chicken Chop", 22.00, true, "../img/food/chicken_chop.jpg")
+  menu += new Food("Peanut Butter Toast", 10.50, true, "../img/food/peanut_butter_toast.jpg")
+  menu += new Food("Half-Boiled Eggs", 4.50, true, "../img/food/half_boiled_eggs.jpg")
+  menu += new Food("Nasi Lemak", 13.50, true, "../img/food/nasi_lemak.jpg")
+  menu += new Food("Fried Bihun", 15, false, "../img/food/fried_bihun.jpg")
+  menu += new Food("Curry Mee", 15, false, "../img/food/curry_mee.jpg")
+  menu += new Food("Prawn Mee", 15, false, "../img/food/prawn_mee.jpg")
 
+  // Beverage Menu Data
   val beverageMenu = new ObservableBuffer[Beverage]()
-  beverageMenu += new Beverage("Milo", 13.00, true)
-  beverageMenu += new Beverage("Barli", 13.00, true)
-  beverageMenu += new Beverage("Teh", 13.00, true)
-  beverageMenu += new Beverage("Kopi", 13.00, true)
-  beverageMenu += new Beverage("Cham", 13.00, true)
-  beverageMenu += new Beverage("Cendol", 13.00, true)
-  beverageMenu += new Beverage("Ice Kacang", 13.00, true)
-  beverageMenu += new Beverage("Horlicks", 13.00, true)
-  beverageMenu += new Beverage("Teh C", 13.00, true)
-  beverageMenu += new Beverage("Teh O", 13.00, true)
+  beverageMenu += new Beverage("Milo", 5.00, true, "../img/beverage/milo.png")
+  beverageMenu += new Beverage("Barli", 3.00, true, "../img/beverage/barli.jpg")
+  beverageMenu += new Beverage("Teh Tarik", 3.50, true, "../img/beverage/teh_tarik.jpeg")
+  beverageMenu += new Beverage("Kopi", 3.50, true, "../img/beverage/kopi.jpg")
+  beverageMenu += new Beverage("Cham", 4.00, true, "../img/beverage/cham.jpg")
+  beverageMenu += new Beverage("Horlicks", 4.00, true, "../img/beverage/horlick.jpg")
 
+  // Restaurant Table Data
   val table = new ObservableBuffer[Table]()
   table += new Table("1")
   table += new Table("2")
@@ -43,14 +50,11 @@ object MainApp extends JFXApp{
   table += new Table("5")
   table += new Table("6")
 
+  // Initialization for Main Stage
   val rootResource = getClass.getResource("view/RootLayout.fxml")
-
   val loader = new FXMLLoader(rootResource, NoDependencyResolver)
-
   loader.load();
-
   val roots = loader.getRoot[jfxs.layout.BorderPane]
-
   stage = new PrimaryStage{
     title = "Point of Sale"
     scene = new Scene{
@@ -58,38 +62,12 @@ object MainApp extends JFXApp{
     }
   }
 
-  val restaurantLayoutTrait: RestaurantLayoutTrait = {
-    val resource = getClass.getResource("view/RestaurantLayout.fxml")
-    val loader = new FXMLLoader(resource, NoDependencyResolver)
-    loader.load()
-    val controller = loader.getController[RestaurantLayoutTrait]
-    controller
-  }
+  // Reference: https://github.com/vigoo/scalafxml
+  // "As the controller class is replaced in compile time by a generated one, we cannot directly use it to
+  // call the controller of our views. Instead we have to define a public interface for them and then use it
+  // as the type given for the getController method of FXMLLoader." - Quoted from reference
 
-  val tableOverviewTrait: TableOverviewTrait = {
-    val resource = getClass.getResource("view/TableOverview1.fxml")
-    val loader = new FXMLLoader(resource, NoDependencyResolver)
-    loader.load()
-    val controller = loader.getController[TableOverviewTrait]
-    controller
-  }
-
-  val menuSelectionTrait: MenuSelectionTrait = {
-    val resource = getClass.getResource("view/MenuSelection.fxml")
-    val loader = new FXMLLoader(resource, NoDependencyResolver)
-    loader.load()
-    val controller = loader.getController[MenuSelectionTrait]
-    controller
-  }
-
-  val menuTrait: MenuTrait = {
-    val resource = getClass.getResource("view/Menu.fxml")
-    val loader = new FXMLLoader(resource, NoDependencyResolver)
-    loader.load()
-    val controller = loader.getController[MenuTrait]
-    controller
-  }
-
+  // Trait to obtain the controller from FXML upon loading
   val overviewTrait: OverviewTrait = {
     val resource = getClass.getResource("view/Overview.fxml")
     val loader = new FXMLLoader(resource, NoDependencyResolver)
@@ -99,32 +77,21 @@ object MainApp extends JFXApp{
   }
 
   val tableOrderTrait: TableOrderTrait = {
-    val resource = getClass.getResource("view/TableOverview2.fxml")
+    val resource = getClass.getResource("view/TableOverview.fxml")
     val loader = new FXMLLoader(resource, NoDependencyResolver)
     loader.load()
     val controller = loader.getController[TableOrderTrait]
     controller
   }
 
-  def showLayout() = {
-    val roots = restaurantLayoutTrait.getGrid
-    this.roots.setCenter(roots)
-  }
-
-  def showTableOverview()={
-    val roots = tableOverviewTrait.getBorderPane
-    this.tableOverviewTrait.initialize()
-    this.roots.setCenter(roots)
-  }
-
+  // Method to display Overview scene
   def showOverview(): Unit = {
     val roots = overviewTrait.getTabPane
     this.overviewTrait.initialize()
     this.roots.setCenter(roots)
   }
 
-
-  //****************Check this*************************
+  // Method to display Table scene
   def showTableOrder(): Unit = {
     val roots = tableOrderTrait.getAnchorPane
     this.tableOrderTrait.initialize()
@@ -132,9 +99,8 @@ object MainApp extends JFXApp{
   }
 
 
-  //Dialog
-
-  def showTableEditDialog(orderItem: OrderItem): Boolean = {
+  //Dialog to change the quantity or remove order items from the table order
+  def showTableEditDialog(orderItem: OrderItem, order: Order): Boolean = {
     val resource = getClass.getResourceAsStream("view/TableEditDialog.fxml")
     val loader = new FXMLLoader(null, NoDependencyResolver)
     loader.load(resource)
@@ -151,34 +117,13 @@ object MainApp extends JFXApp{
     }
     controller.dialogStage = dialog
     controller.orderItem = orderItem
+    controller.order= order
     controller.initialize()
     dialog.showAndWait()
     controller.okClicked
   }
 
-//  def showTableAddOrderDialog(product: Product, table: Table): Boolean = {
-//    val resource = getClass.getResourceAsStream("view/TableAddOrderDialog.fxml")
-//    val loader = new FXMLLoader(null, NoDependencyResolver)
-//    loader.load(resource)
-//    val roots2 = loader.getRoot[jfxs.Parent]
-//    val controller = loader.getController[TableAddOrderDialogController#Controller]
-//
-//    val dialog = new Stage(){
-//      initModality(Modality.ApplicationModal)
-//      initOwner(stage)
-//      scene = new Scene{
-//        stylesheets += getClass.getResource("css/test.css").toString
-//        root = roots2
-//      }
-//    }
-//    controller.dialogStage = dialog
-//    controller.product = product
-//    controller.table = table
-//    controller.initialize()
-//    dialog.showAndWait()
-//    controller.okClicked
-//  }
-
+  // Dialog to add foods to each table order
   def showTableAddOrderDialog(product: Product, order: Order): Boolean = {
     val resource = getClass.getResourceAsStream("view/TableAddOrderDialog.fxml")
     val loader = new FXMLLoader(null, NoDependencyResolver)
@@ -202,28 +147,7 @@ object MainApp extends JFXApp{
     controller.okClicked
   }
 
-//  def showTableAddBeverageDialog(beverage: Beverage, table: Table): Boolean = {
-//    val resource = getClass.getResourceAsStream("view/TableAddBeverageDialog.fxml")
-//    val loader = new FXMLLoader(null, NoDependencyResolver)
-//    loader.load(resource)
-//    val roots2 = loader.getRoot[jfxs.Parent]
-//    val controller = loader.getController[TableAddBeverageDialogController#Controller]
-//
-//    val dialog = new Stage(){
-//      initModality(Modality.ApplicationModal)
-//      initOwner(stage)
-//      scene = new Scene{
-//        root = roots2
-//      }
-//    }
-//    controller.dialogStage = dialog
-//    controller.beverage = beverage
-//    controller.table = table
-//    controller.initialize()
-//    dialog.showAndWait()
-//    controller.okClicked
-//  }
-
+  // Dialog to add beverages into each table order
   def showTableAddBeverageDialog(beverage: Beverage, order: Order): Boolean = {
     val resource = getClass.getResourceAsStream("view/TableAddBeverageDialog.fxml")
     val loader = new FXMLLoader(null, NoDependencyResolver)
@@ -247,12 +171,13 @@ object MainApp extends JFXApp{
     controller.okClicked
   }
 
+  // Dialog to edit the food in the Food Menu
   def showFoodMenuEditDialog(food: Food, operation: String): Boolean = {
-    val resource = getClass.getResourceAsStream("view/FoodMenuEditDialog.fxml")
+    val resource = getClass.getResourceAsStream("view/OverviewMenuEditDialog.fxml")
     val loader = new FXMLLoader(null, NoDependencyResolver)
     loader.load(resource)
     val roots2 = loader.getRoot[jfxs.Parent]
-    val controller = loader.getController[FoodMenuEditDialogController#Controller]
+    val controller = loader.getController[OverviewMenuEditDialogController#Controller]
 
     val dialog = new Stage(){
       initModality(Modality.ApplicationModal)
@@ -270,12 +195,13 @@ object MainApp extends JFXApp{
     controller.okClicked
   }
 
+  // Dialog to edit the beverage in the Beverage Menu
   def showBeverageMenuEditDialog(beverage: Beverage, operation: String): Boolean = {
-    val resource = getClass.getResourceAsStream("view/FoodMenuEditDialog.fxml")
+    val resource = getClass.getResourceAsStream("view/OverviewMenuEditDialog.fxml")
     val loader = new FXMLLoader(null, NoDependencyResolver)
     loader.load(resource)
     val roots2 = loader.getRoot[jfxs.Parent]
-    val controller = loader.getController[FoodMenuEditDialogController#Controller]
+    val controller = loader.getController[OverviewMenuEditDialogController#Controller]
 
     val dialog = new Stage(){
       initModality(Modality.ApplicationModal)
@@ -293,6 +219,7 @@ object MainApp extends JFXApp{
     controller.okClicked
   }
 
+  // Dialog to process payment
   def showPaymentDialog(table: Table): Boolean = {
     val resource = getClass.getResourceAsStream("view/PaymentDialog.fxml")
     val loader = new FXMLLoader(null, NoDependencyResolver)
@@ -314,54 +241,6 @@ object MainApp extends JFXApp{
     dialog.showAndWait()
     controller.okClicked
   }
-
-  // Helper function
-
-
-  //  def showLayout() = {
-  //    val resource = getClass.getResource("view/RestaurantLayout.fxml")
-  //    val loader = new FXMLLoader(resource, NoDependencyResolver)
-  //    loader.load()
-  //    val controller = loader.getController[RestaurantLayoutTrait]
-  //
-  //    val roots = loader.getRoot[jfxs.layout.AnchorPane]
-  //    this.roots.setCenter(roots)
-  //    controller
-  //  }
-  //
-  //  def showTableOverview(table: Table) = {
-  //    val resource = getClass.getResource("view/TableOverview1.fxml")
-  //    val loader = new FXMLLoader(resource, NoDependencyResolver)
-  //    loader.load()
-  //    val controller = loader.getController[TableOverviewTrait]
-  //    val roots = loader.getRoot[jfxs.layout.BorderPane]
-  //
-  //    controller.table = table
-  //    controller.initialize()
-  //
-  //    this.roots.setCenter(roots)
-  //    controller
-  //  }
-  //
-  //  def showMenuSelection(table: Table) = {
-  //    val resource = getClass.getResource("view/MenuSelection.fxml")
-  //    val loader = new FXMLLoader(resource, NoDependencyResolver)
-  //    loader.load()
-  //    val controller = loader.getController[MenuSelectionTrait]
-  //    controller.table = table
-  //    controller
-  //  }
-  //
-  //  def showMenu(table: Table) = {
-  //    val resource = getClass.getResource("view/Menu.fxml")
-  //    val loader = new FXMLLoader(resource, NoDependencyResolver)
-  //    loader.load()
-  //    val controller = loader.getController[MenuTrait]
-  //    controller.table = table
-  //    controller
-  //  }
-  //  initialize()
-  //  showLayout()
 
   showOverview()
 }

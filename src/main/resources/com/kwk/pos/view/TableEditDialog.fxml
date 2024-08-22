@@ -35,7 +35,7 @@
             <HBox alignment="CENTER" prefHeight="53.0" prefWidth="206.0" spacing="20.0" GridPane.columnIndex="1">
                <children>
                   <Button fx:id="decreaseButton" mnemonicParsing="false" onAction="#handleDecrease" prefHeight="25.0" prefWidth="25.0" styleClass="quantity-button" text="-" />
-                  <TextField fx:id="quantityTextField" prefHeight="25.0" prefWidth="95.0" />
+                  <TextField fx:id="quantityTextField" alignment="CENTER" prefHeight="25.0" prefWidth="95.0" />
                   <Button fx:id="increaseButton" mnemonicParsing="false" onAction="#handleIncrease" prefHeight="25.0" prefWidth="25.0" styleClass="quantity-button" text="+" />
                </children>
             </HBox>

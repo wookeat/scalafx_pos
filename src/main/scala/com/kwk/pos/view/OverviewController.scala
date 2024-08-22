@@ -23,10 +23,11 @@ trait OverviewTrait{
   def initialize(): Unit
 }
 
+
+// Controller that manages the whole Main menu of the Point of Sale System
 @sfxml
 class OverviewController(
                         private val tabPane: TabPane,
-//                        private val layoutGridPane: GridPane,
                         private val tableLayoutAnchorPane: AnchorPane,
 
                         private val foodIdLabel: Label,
@@ -66,6 +67,7 @@ class OverviewController(
   def initialize(): Unit = {
     initializeTableLayout()
 
+    // Initialize the table view in food menu tab
     foodMenuTableView.items = MainApp.menu
     foodMenuNameColumn.cellValueFactory = { _.value.name }
     foodMenuPriceColumn.cellValueFactory = { _.value.price }
@@ -74,6 +76,7 @@ class OverviewController(
       ObjectProperty[Integer](foodMenuTableView.items.value.indexOf(cellData.value) + 1)
     }
 
+    // Initialize the table view in beverage menu tab
     beverageMenuTableView.items = MainApp.beverageMenu
     beverageMenuNameColumn.cellValueFactory = { _.value.name }
     beverageMenuPriceColumn.cellValueFactory = { _.value.price }
@@ -83,6 +86,7 @@ class OverviewController(
     }
   }
 
+  // Method to initialize the table layout in the restaurant by adding the scalafx element/node dynamically
   private def initializeTableLayout(): Unit = {
     val layoutGridPane = new GridPane()
     layoutGridPane.prefWidth <== tableLayoutAnchorPane.width
@@ -90,6 +94,7 @@ class OverviewController(
     layoutGridPane.hgrow = Priority.Always
     layoutGridPane.vgrow = Priority.Always
 
+    // Ensure the layout to be 3 x 3 grid layout with equal size grid
     for (_ <- 0 until 3) {
       val column = new ColumnConstraints {
         hgrow = Priority.Always
@@ -114,13 +119,15 @@ class OverviewController(
         cursor = Cursor.Hand
         alignmentInParent = Pos.Center
         userData = MainApp.table(i)
-
+        // Change the colour of the table based on its order
         if(MainApp.table(i).order.nonEmpty){
           fill = Color.web("#FDC848")
         }else{
           fill = Color.web("#06D6A0")
         }
       }
+
+      // Handle the table onClick Event
       circle.onMouseClicked = (e: MouseEvent) => {
         val circle = e.source.asInstanceOf[javafx.scene.shape.Circle]
         val tableData = circle.getUserData.asInstanceOf[Table]
@@ -133,32 +140,35 @@ class OverviewController(
 
       val tableNum = new Text(s"${i + 1}")
       tableNum.setStyle("-fx-font-weight: bold; -fx-font-family: Gilroy-Bold; -fx-font-size: 24")
-      val stackPane = new StackPane()
 
+      val stackPane = new StackPane() // To stack the table number on top of the circle
       stackPane.children.addAll(circle, tableNum)
       layoutGridPane.add(stackPane, row, col)
     }
   }
 
+  // Listener for table view row selection in food menu tab
   foodMenuTableView.selectionModel.value.selectedItem.onChange(
     (a, b, newValue) => {
       showFoodMenuDetails(Option(newValue))
     }
   )
 
+  // Listener for table view row selection in beverage menu tab
   beverageMenuTableView.selectionModel.value.selectedItem.onChange(
     (a, b, newValue) => {
       showBeverageMenuDetails(Option(newValue))
     }
   )
 
+  // Method to display the food details on click in food menu tab
   private def showFoodMenuDetails(food: Option[Food]): Unit = {
     food match{
       case Some(food) =>
         editFoodButton.disable = false
         removeFoodButton.disable = false
         foodNameLabel.text <== food.name
-        foodPriceLabel.text <== food.price.asString
+        foodPriceLabel.text <==  StringProperty(f"RM ${food.price.value}%.2f")
         foodImageView.imageProperty().bind(food.imagePath)
 
       case None =>
@@ -174,13 +184,14 @@ class OverviewController(
   }
   showFoodMenuDetails(None)
 
+  // Method to display the beverage details on click in beverage menu tab
   private def showBeverageMenuDetails(beverage: Option[Beverage]): Unit = {
     beverage match{
       case Some(beverage) =>
         editBeverageButton.disable = false
         removeBeverageButton.disable = false
         beverageNameLabel.text <== beverage.name
-        beveragePriceLabel.text <== beverage.price.asString
+        beveragePriceLabel.text <== StringProperty(f"RM ${beverage.price.value}%.2f")
         beverageImageView.imageProperty().bind(beverage.imagePath)
 
       case None =>
@@ -188,8 +199,8 @@ class OverviewController(
         removeBeverageButton.disable = true
         beverageNameLabel.text.unbind()
         beveragePriceLabel.text.unbind()
-        foodImageView.imageProperty().unbind()
-        foodImageView.setImage(null)
+        beverageImageView.imageProperty().unbind()
+        beverageImageView.setImage(null)
         beverageNameLabel.text = ""
         beveragePriceLabel.text = ""
     }
@@ -197,6 +208,7 @@ class OverviewController(
 
   showBeverageMenuDetails(None)
 
+  // Event handler to add new food into Food menu
   def handleAddNewFood(actionEvent: ActionEvent): Unit = {
     val food = new Food("", 0.00, false)
     val okClicked = MainApp.showFoodMenuEditDialog(food, "Add New Food")
@@ -213,6 +225,7 @@ class OverviewController(
     }
   }
 
+  // Event handler to add new beverage into Beverage menu
   def handleAddNewBeverage(actionEvent: ActionEvent): Unit = {
     val beverage = new Beverage("", 0.00, false)
     val okClicked = MainApp.showBeverageMenuEditDialog(beverage, "Add New Beverage")
@@ -229,16 +242,19 @@ class OverviewController(
     }
   }
 
+  // Event handler to edit food details in Food menu
   def handleEditFood(actionEvent: ActionEvent): Unit = {
     val food = foodMenuTableView.selectionModel.value.selectedItem.value
     MainApp.showFoodMenuEditDialog(food, "Edit Food")
   }
 
+  // Event handler to edit beverage details in Beverage menu
   def handleEditBeverage(actionEvent: ActionEvent): Unit = {
     val beverage = beverageMenuTableView.selectionModel.value.selectedItem.value
     MainApp.showBeverageMenuEditDialog(beverage, "Edit Beverage")
   }
 
+  // Event handler to remove food from Food menu
   def handleRemoveFood(actionEvent: ActionEvent): Unit = {
     val index = foodMenuTableView.selectionModel.value.getSelectedIndex
     if(index >= 0) {
@@ -246,6 +262,7 @@ class OverviewController(
     }
   }
 
+  // Event handler to remove beverage from Beverage menu
   def handleRemoveBeverage(actionEvent: ActionEvent): Unit = {
     val index = beverageMenuTableView.selectionModel.value.getSelectedIndex
     if(index >= 0) {

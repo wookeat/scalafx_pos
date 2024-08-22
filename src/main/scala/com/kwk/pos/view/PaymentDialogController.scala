@@ -64,6 +64,7 @@ class PaymentDialogController(
     balanceLabel.text <== StringProperty(f"RM $balance%.2f")
     totalLabel.text <== StringProperty(f"$balance%.2f")
 
+    // Method to ensure the fixed ringgit button that has value less than the payable amount are disabled
     stackPaneValues.foreach { case (value, button) =>
       button.disable = balance > value
     }

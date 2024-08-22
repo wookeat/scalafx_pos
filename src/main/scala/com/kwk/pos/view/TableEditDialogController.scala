@@ -1,7 +1,7 @@
 package com.kwk.pos.view
 
 import com.kwk.pos.MainApp
-import com.kwk.pos.modal.{OrderItem, Table}
+import com.kwk.pos.modal.{Order, OrderItem, Table}
 import scalafx.beans.property.ObjectProperty
 import scalafx.event.ActionEvent
 import scalafx.scene.control.{Button, TextField}
@@ -14,6 +14,7 @@ import scala.util.Try
 
 trait TableEditDialogTrait{
   var orderItem: OrderItem = _
+  var order: Order = _
   var dialogStage: Stage = _
   var okClicked: Boolean = false
 }
@@ -53,7 +54,8 @@ class TableEditDialogController(
   }
 
   def handleRemove(actionEvent: ActionEvent): Unit = {
-    MainApp.tableOrderTrait.table.order.get.items.remove(orderItem)
+//    order.items.remove(orderItem)
+    order.removeItem(orderItem)
     dialogStage.close()
   }
 
@@ -61,12 +63,12 @@ class TableEditDialogController(
 //
 //  }
 
-  val converter = new StringConverter[Integer] {
-    override def toString(int: Integer): String = if (int == null) "" else int.toString
-    override def fromString(string: String): Integer =
-      if (string == null || string.trim.isEmpty) 0
-      else string.toInt
-  }
+//  val converter = new StringConverter[Integer] {
+//    override def toString(int: Integer): String = if (int == null) "" else int.toString
+//    override def fromString(string: String): Integer =
+//      if (string == null || string.trim.isEmpty) 0
+//      else string.toInt
+//  }
 
 //  quantityTextField.text <==> quantity
   quantityTextField.text.onChange((a,b,newValue) => quantityTextField.text <== quantity.asString())

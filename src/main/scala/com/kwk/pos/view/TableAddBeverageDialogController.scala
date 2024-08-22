@@ -28,12 +28,15 @@ class TableAddBeverageDialogController(
                                      private val hotTempRadioButton: RadioButton
                                    ) extends TableAddBeverageDialogTrait{
 
-  val quantity: ObjectProperty[Integer] = ObjectProperty(1)
+  val quantity: ObjectProperty[Integer] = ObjectProperty(1) // Objectproperty to capture the quantity changes
   val sweetnessToggleState = ObjectProperty(Sweetness.Normal)
   val tempToggleState = ObjectProperty(Temperature.Normal)
+
+  // Toggle group to ensure only one radio button is selected
   val sweetnessToggleGroup = new ToggleGroup()
   val tempToggleGroup = new ToggleGroup()
 
+  // Initialize the sweetness radio button group
   nonSweetRadioButton.toggleGroup = sweetnessToggleGroup
   nonSweetRadioButton.userData = Sweetness.NonSweet
   normalSweetRadioButton.toggleGroup = sweetnessToggleGroup
@@ -41,6 +44,7 @@ class TableAddBeverageDialogController(
   extraSweetRadioButton.toggleGroup = sweetnessToggleGroup
   extraSweetRadioButton.userData = Sweetness.ExtraSweet
 
+  // Initialize the temperature radio button group
   coldTempRadioButton.toggleGroup = tempToggleGroup
   coldTempRadioButton.userData = Temperature.Cold
   normalTempRadioButton.toggleGroup = tempToggleGroup
@@ -55,10 +59,12 @@ class TableAddBeverageDialogController(
     normalTempRadioButton.setSelected(true)
   }
 
+  // Ensure the temperature toggle state to capture the selected radio button
   tempToggleGroup.selectedToggle.onChange((a,b,newValue) => {
     tempToggleState.value = newValue.getUserData.asInstanceOf[Temperature]
   })
 
+  // Ensure the sweetness toggle state to capture the selected radio button
   sweetnessToggleGroup.selectedToggle.onChange((a,b,newValue) => {
     sweetnessToggleState.value = newValue.getUserData.asInstanceOf[Sweetness]
   })
@@ -80,7 +86,6 @@ class TableAddBeverageDialogController(
     tempBeverage.sweetness <== sweetnessToggleState
     tempBeverage.temperature <== tempToggleState
     order.addItem(tempBeverage, quantity.value)
-    println(s"${tempBeverage.sweetness.value.sweetness}")
     dialogStage.close()
   }
 
